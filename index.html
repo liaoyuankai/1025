@@ -4,12 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="robots" content="noindex,nofollow">
+  <!-- 微信内置浏览器缓存很顽固：页面每次都重新取，样式/脚本/音乐靠 ?v= 版本号换新 -->
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Pragma" content="no-cache">
   <meta name="theme-color" content="#fde7f3">
   <meta name="description" content="一份生日限定版的朋友圈年度报告">
-  <title>可欣，生日快乐 🎂</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>星星er，生日快乐 🎂</title>
+  <link rel="stylesheet" href="styles.css?v=3">
   <script>document.documentElement.classList.replace("no-js","js")</script>
-  <script src="app.js" defer></script>
+  <script src="app.js?v=3" defer></script>
 </head>
 <body>
   <div class="sparkles" aria-hidden="true"></div>
@@ -41,7 +44,7 @@
     <section class="slide slide--cover" data-slide="cover">
       <div class="slide__inner center">
         <p class="eyebrow r" style="--i:0">2026 · BIRTHDAY EDITION</p>
-        <h1 class="cover-title r" style="--i:1">可欣<br><span>朋友圈年度报告</span></h1>
+        <h1 class="cover-title r" style="--i:1">星星er<br><span>朋友圈年度报告</span></h1>
         <p class="cover-sub r" style="--i:2">生日限定版 🎂</p>
         <dl class="meta r" style="--i:3">
           <div><dt>统计周期</dt><dd>4.20 — 10.16</dd></div>
@@ -327,7 +330,7 @@
     <section class="slide slide--final" data-slide="final">
       <div class="slide__inner">
         <div class="lace" aria-hidden="true"></div>
-        <p class="shout r" style="--i:0">🎉 生日快乐，可欣！</p>
+        <p class="shout r" style="--i:0">🎉 生日快乐，星星er！</p>
         <p class="r" style="--i:1">你说过一句话，我一直觉得特别对：</p>
         <p class="wish r" style="--i:2">「爱吃薯条的女孩，<br>运气不会太差。」</p>
         <p class="r" style="--i:3">所以新的一岁——</p>
@@ -347,9 +350,9 @@
 
   <div id="card-modal" class="modal" role="dialog" aria-modal="true" aria-label="年度报告卡片" hidden>
     <div class="modal__box">
-      <img id="card-img" class="modal__img" alt="可欣的 2026 朋友圈年度报告卡片">
+      <img id="card-img" class="modal__img" alt="星星er的 2026 朋友圈年度报告卡片">
       <p class="modal__tip">长按图片，保存到相册 👆</p>
-      <a id="card-download" class="skip" download="可欣的年度报告.png">电脑上看？点这里下载</a>
+      <a id="card-download" class="skip" download="星星er的年度报告.png">电脑上看？点这里下载</a>
       <button id="card-close" class="btn" type="button">好啦</button>
     </div>
   </div>

@@ -36,15 +36,17 @@
   });
 
   /* ---------- 音乐：全程 Someone to Love，关灯许愿时换成生日歌 ---------- */
-  const bgm = new Audio("assets/bgm.m4a");
+  const bgm = new Audio("assets/bgm.m4a?v=3");
   bgm.loop = true;
-  const song = new Audio("assets/happy-birthday.m4a");
+  const song = new Audio("assets/happy-birthday.m4a?v=3");
   const CHORUS_AT = 96; // 1:36 副歌第一拍，前面约 1 秒几乎没声
   // iPhone 不让网页调音量（volume 永远是 1），所以两首歌已在文件里调成一样响，那边切歌直接停/放
   const canFade = (() => { const probe = new Audio(); probe.volume = 0.5; return probe.volume === 0.5; })();
   let track = bgm;
   let soundOn = false;
   let muted = false; // 她自己点了暂停
+  let wantSound = false; // 此刻本该有声音（生日歌唱完后的安静不算）
+  let lastPlayError = "";
 
   function setSound(playing) {
     soundOn = playing;
@@ -54,10 +56,12 @@
   }
 
   async function play(audio) {
+    wantSound = true;
     try {
       await audio.play();
       setSound(true);
-    } catch {
+    } catch (error) {
+      lastPlayError = `${audio === bgm ? "BGM" : "生日歌"} ${error.name}`;
       setSound(false);
     }
   }
@@ -91,6 +95,7 @@
   soundButton?.addEventListener("click", () => {
     muted = soundOn;
     if (soundOn) {
+      wantSound = false;
       track.pause();
       setSound(false);
     } else {
@@ -98,10 +103,26 @@
     }
   });
   bgm.addEventListener("error", () => { if (soundButton && track === bgm) soundButton.hidden = true; });
-  song.addEventListener("ended", () => setSound(false));
+  song.addEventListener("ended", () => { wantSound = false; setSound(false); });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden && soundOn) { track.pause(); setSound(false); }
   });
+
+  // 微信有时会拦下不是点击直接触发的播放（比如吹灭蜡烛后自动接副歌），她下一次碰屏幕时补上
+  ["touchend", "click"].forEach((type) => document.addEventListener(type, (event) => {
+    if (wantSound && !muted && track.paused && !event.target.closest("#sound-toggle")) play(track);
+  }, true));
+
+  /* 真机排查用：链接末尾加 ?debug，左下角显示两首歌的播放状态 */
+  if (location.search.includes("debug")) {
+    const panel = document.createElement("pre");
+    panel.className = "debug";
+    document.body.append(panel);
+    const describe = (audio) => `${audio.paused ? "⏸" : "▶"} ${audio.currentTime.toFixed(1)}s 缓冲${audio.readyState}${audio.error ? ` 出错${audio.error.code}` : ""}`;
+    window.setInterval(() => {
+      panel.textContent = `BGM   ${describe(bgm)}\n生日歌 ${describe(song)}\n该响 ${wantSound} 静音 ${muted} ${lastPlayError}`;
+    }, 300);
+  }
 
   /* ---------- 彩带 ---------- */
   const confettiColors = ["#ff5fa2", "#9b7bff", "#8fd3ff", "#ffd36e", "#ffffff", "#ffb3d4"];
@@ -230,21 +251,54 @@
   const bubblesDone = document.querySelector("#bubbles-done");
   let popped = 0;
 
+  // 捏爆特效：泡泡先鼓一下再炸开——闪光、冲击波、碎片、拟声字，屏幕跟着抖一抖
+  const boomWords = ["啪！", "砰！", "BOOM!", "爆！", "没了！", "嘭！"];
+  const shardColors = ["#ff5fa2", "#9b7bff", "#8fd3ff", "#ffd36e", "#ffb3d4"];
+
+  function explode(x, y, big) {
+    const boom = document.createElement("div");
+    boom.className = big ? "boom boom--big" : "boom";
+    boom.style.left = `${x}px`;
+    boom.style.top = `${y}px`;
+    let html = `<b class="boom__flash"></b><b class="boom__ring"></b><b class="boom__word">${boomWords[Math.floor(Math.random() * boomWords.length)]}</b>`;
+    const count = big ? 44 : 30;
+    for (let i = 0; i < count; i += 1) {
+      const angle = (i / count) * Math.PI * 2 + Math.random() * 0.5;
+      const dist = (big ? 150 : 95) + Math.random() * (big ? 140 : 95);
+      const kind = i % 4 === 0 ? "boom__star" : i % 3 === 0 ? "boom__chip" : "";
+      html += `<i class="${kind}" style="--dx:${Math.round(Math.cos(angle) * dist)}px;--dy:${Math.round(Math.sin(angle) * dist)}px;--s:${Math.round(8 + Math.random() * 11)}px;--c:${shardColors[i % shardColors.length]};--r:${Math.round(Math.random() * 720 - 360)}deg">${kind === "boom__star" ? "✦" : ""}</i>`;
+    }
+    boom.innerHTML = html;
+    document.body.append(boom);
+    window.setTimeout(() => boom.remove(), 1100);
+    const inner = slides[current].querySelector(".slide__inner");
+    inner?.classList.remove("is-shaking");
+    void inner?.offsetWidth;
+    inner?.classList.add("is-shaking");
+    try { navigator.vibrate?.(big ? [40, 30, 70] : 30); } catch { /* 有的浏览器不让震 */ }
+  }
+
   bubbles.forEach((bubble) => {
     bubble.addEventListener("click", () => {
-      if (bubble.classList.contains("is-popped")) return;
-      const original = bubble.innerHTML.replace(/<br>/g, "");
-      bubble.classList.add("is-popped");
-      bubble.innerHTML = `<small>${original}</small>${bubble.dataset.reply}`;
-      bubble.setAttribute("aria-disabled", "true");
+      if (bubble.classList.contains("is-popped") || bubble.classList.contains("is-swelling")) return;
       popped += 1;
       const left = bubbles.length - popped;
-      if (popCount) popCount.textContent = left ? `还剩 ${left} 个` : "";
-      if (!left) {
-        if (bubblesDone) bubblesDone.hidden = false;
-        confetti(80);
-        window.setTimeout(() => bubblesDone?.scrollIntoView({behavior: reduceMotion ? "auto" : "smooth", block: "center"}), 300);
-      }
+      bubble.classList.add("is-swelling");
+      window.setTimeout(() => {
+        const box = bubble.getBoundingClientRect();
+        if (!reduceMotion) explode(box.left + box.width / 2, box.top + box.height / 2, !left);
+        const original = bubble.innerHTML.replace(/<br>/g, "");
+        bubble.classList.remove("is-swelling");
+        bubble.classList.add("is-popped");
+        bubble.innerHTML = `<small>${original}</small>${bubble.dataset.reply}`;
+        bubble.setAttribute("aria-disabled", "true");
+        if (popCount) popCount.textContent = left ? `还剩 ${left} 个` : "";
+        if (!left) {
+          if (bubblesDone) bubblesDone.hidden = false;
+          confetti(80);
+          window.setTimeout(() => bubblesDone?.scrollIntoView({behavior: reduceMotion ? "auto" : "smooth", block: "center"}), 500);
+        }
+      }, reduceMotion ? 0 : 130);
     });
   });
 
@@ -258,7 +312,7 @@
   const cakeWrap = document.querySelector("#cake-wrap");
   const cake = document.querySelector("#cake");
   const lyrics = document.querySelector("#lyrics");
-  const lyricLines = ["祝你生日快乐 🎵", "祝你生日快乐 🎵", "祝可欣生日快乐 🎂", "祝你生日快乐 🎉"];
+  const lyricLines = ["祝你生日快乐 🎵", "祝你生日快乐 🎵", "祝星星er生日快乐 🎂", "祝你生日快乐 🎉"];
   let lyricTimer = 0;
 
   function setStep(step) {
@@ -460,7 +514,7 @@
     for (let x = 15; x < W + 30; x += 30) { ctx.beginPath(); ctx.arc(x, 0, 15, 0, Math.PI); ctx.fill(); }
 
     text(ctx, "2026 · BIRTHDAY EDITION", W / 2, 150, 30, "#9b7bff", 800, "center");
-    text(ctx, "可欣", W / 2, 300, 130, "#6b4fbf", 900, "center");
+    text(ctx, "星星er", W / 2, 300, 130, "#6b4fbf", 900, "center");
     const pill = ctx.createLinearGradient(290, 0, 790, 0);
     pill.addColorStop(0, "#ff5fa2");
     pill.addColorStop(1, "#9b7bff");
