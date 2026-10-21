@@ -10,9 +10,9 @@
   <meta name="theme-color" content="#fde7f3">
   <meta name="description" content="一份生日限定版的朋友圈年度报告">
   <title>星星er，生日快乐 🎂</title>
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
   <script>document.documentElement.classList.replace("no-js","js")</script>
-  <script src="app.js?v=3" defer></script>
+  <script src="app.js?v=4" defer></script>
 </head>
 <body>
   <div class="sparkles" aria-hidden="true"></div>
@@ -48,6 +48,7 @@
         <p class="cover-sub r" style="--i:2">生日限定版 🎂</p>
         <dl class="meta r" style="--i:3">
           <div><dt>统计周期</dt><dd>4.20 — 10.16</dd></div>
+          <div><dt>样本量</dt><dd>565 条朋友圈</dd></div>
           <div><dt>数据整理</dt><dd>一位四年的忠实点赞用户</dd></div>
           <div><dt>年度 BGM</dt><dd>Someone to Love<small>你 5.3 分享的 🎵</small></dd></div>
           <div><dt>报告可信度</dt><dd class="pink">2778%</dd></div>
@@ -73,18 +74,39 @@
           <div id="moment-body" class="moment__body">
             <p>📢 官方答复：</p>
             <p class="shout">没有！！！</p>
-            <p>这半年你一共发了 <b class="pink">300 多条</b>，<br>单日最高 <b class="pink">9 条</b>，<br>几乎没有一天是空着的。</p>
-            <p>而这 300 多条——<br><b>每一条，都有人认认真真看完了。</b></p>
+            <p>这半年你一共发了 <b class="pink">565 条</b>，<br>单日最高 <b class="pink">10 条</b>，<br>几乎没有一天是空着的。</p>
+            <p>而这 565 条——<br><b>每一条，都有人认认真真看完了。</b></p>
             <p class="aside">（包括那些凌晨 5 点发的 👀）</p>
           </div>
           <button id="unfold" class="moment__more" type="button" aria-controls="moment-body" aria-expanded="false">全文</button>
         </article>
         <p id="unfold-hint" class="aside center-text r" style="--i:4">↑ 点「全文」展开看看</p>
-        <button id="folded-next" class="btn next" type="button" hidden>下一页 →</button>
+        <button id="folded-next" class="btn next" type="button" hidden>看证据 →</button>
       </div>
     </section>
 
-    <!-- 03 2778 小测验 -->
+    <!-- 03 发圈日历 -->
+    <section class="slide" data-slide="calendar">
+      <div class="slide__inner">
+        <p class="eyebrow r" style="--i:0">证据 · 发圈日历</p>
+        <h2 class="r" style="--i:1">180 天，<br>你的朋友圈几乎天天营业</h2>
+        <div class="cal r" style="--i:2">
+          <p id="cal-readout" class="cal__readout" aria-live="polite">手指在格子上划一划，有彩蛋 👆</p>
+          <div id="cal-grid" class="cal__grid" role="img" aria-label="4 月 20 日到 10 月 16 日每天发朋友圈条数的日历"></div>
+          <p class="cal__legend" aria-hidden="true"><span>没发</span><i class="lv0"></i><span>少</span><i class="lv1"></i><i class="lv2"></i><i class="lv3"></i><i class="lv4"></i><span>多</span><i class="is-tag lv2"></i><span>有故事</span></p>
+        </div>
+        <ul class="tiles r" style="--i:3">
+          <li><b data-count="565">565</b><span>条朋友圈</span></li>
+          <li><b data-count="175">175</b><span>天有更新</span></li>
+          <li><b data-count="10">10</b><span>条 · 单日最高<br>10 月 8 日</span></li>
+        </ul>
+        <p class="r" style="--i:4">空着的只有 5 天，<br>那几天本报告的点赞手指无处安放 👍</p>
+        <p class="r" style="--i:5">有些当时没来得及评论——<br><b class="pink">接下来，一条条补上 ✍️</b></p>
+        <button class="btn next r" style="--i:6" type="button">下一页 →</button>
+      </div>
+    </section>
+
+    <!-- 04 2778 小测验 -->
     <section class="slide" data-slide="quiz">
       <div class="slide__inner">
         <p class="eyebrow r" style="--i:0">小测验 01</p>
@@ -110,7 +132,7 @@
       </div>
     </section>
 
-    <!-- 04 年度口头禅 -->
+    <!-- 05 年度口头禅 -->
     <section class="slide" data-slide="comfy">
       <div class="slide__inner">
         <p class="eyebrow r" style="--i:0">年度口头禅</p>
@@ -127,83 +149,134 @@
       </div>
     </section>
 
-    <!-- 05 年度饮品 -->
+    <!-- 06 年度饮品 -->
     <section class="slide" data-slide="drinks">
       <div class="slide__inner">
         <p class="eyebrow r" style="--i:0">AWARDS</p>
         <h2 class="r" style="--i:1">年度饮品颁奖典礼 🏆</h2>
         <div class="card r" style="--i:2">
           <p class="card__title">🥇 <span class="pink">年度最佳：布蕾珍珠</span></p>
-          <p>麦记那杯「卧槽好好喝」，书亦那杯「惊为天人」，抹茶那杯……喝完睡不着。<br>三杯，一部布蕾进化史。</p>
+          <p>麦记「卧槽好好喝」→ 书亦「惊为天人」→ 抹茶款喝完睡不着（下午三点后慎点）</p>
         </div>
         <div class="card r" style="--i:3">
           <p class="card__title">🚫 年度拉黑</p>
-          <p>一点点可可芭蕾（「一辈子不会再喝」）<br>山葵味（「没人跟我说山葵就是芥末味」🤢）</p>
+          <p>可可芭蕾「一辈子不会再喝」· 山葵味 🤢</p>
         </div>
-        <div class="card r" style="--i:4">
-          <p class="card__title">💔 年度意难平：喜茶关店</p>
-          <p>「不要带走烤黑糖啵啵牛乳，不要带走多肉葡萄……」</p>
-        </div>
-        <p class="r" style="--i:5"><b>颁奖词：</b>喜茶带走了啵啵牛乳，但布蕾珍珠接住了你。<br>奶茶毒瘾不用戒，生日这天，第二杯也算我的 🧋</p>
-        <p class="aside r" style="--i:6">（友情提示：抹茶布蕾，下午三点后慎点）</p>
-        <button class="btn next r" style="--i:7" type="button">下一页 →</button>
-      </div>
-    </section>
-
-    <!-- 06 年度游戏 -->
-    <section class="slide" data-slide="game">
-      <div class="slide__inner">
-        <p class="eyebrow r" style="--i:0">年度游戏</p>
-        <h2 class="r" style="--i:1">毫无悬念：第五人格 🎮</h2>
-        <ul class="stats r" style="--i:2">
-          <li><span>加页手记</span><b>每天玩到两三点</b></li>
-          <li><span>排位</span><b>两年没上六阶 → 半个月直接六阶</b></li>
-          <li><span>排名</span><b>国服第一（中）</b></li>
-          <li><span>项链</span><b>第 1810 把，第 89 条，300 万终于出了！！</b></li>
-        </ul>
-        <div class="bubble-quote r" style="--i:3">
-          <span class="bubble-quote__date">你说：</span>
-          「呃要玩一辈子第五人格了<span id="bushi" class="bushi">（bushi）</span>」
-        </div>
-        <p class="r" style="--i:4">本报告认为：（bushi）可以删掉了 ✂️<br>祝新的一岁，<b class="pink">出金不歪，项链管够！</b></p>
-        <button class="btn next r" style="--i:5" type="button">下一页 →</button>
-      </div>
-    </section>
-
-    <!-- 07 寻找 5s -->
-    <section class="slide" data-slide="iphone">
-      <div class="slide__inner">
-        <p class="eyebrow r" style="--i:0">年度连续剧</p>
-        <h2 class="r" style="--i:1">《寻找 iPhone 5s》📱</h2>
-        <ol class="timeline r" style="--i:2">
-          <li><span>EP1 · 9.15</span>发现丢在半个月前吃饭的地方<br><q>回来吧，我保证以后乖乖的</q> 🥺</li>
-          <li><span>EP2 · 9.17</span><q>一想到原装祖传 5s 不见了就气</q></li>
-          <li><span>EP3 · 9.17</span>重新买一台 5s……被卖家坑了</li>
-          <li><span>EP4 · 9.23</span>买了 6s。<q>但我丢失的 5s 再也回不来了</q></li>
-        </ol>
-        <p class="aside r" style="--i:3">📺 本剧暂未完结，观众已哭晕在厕所。</p>
-        <p class="r" style="--i:4">祝新的一岁，<b>丢掉的东西都会自己走回来。</b></p>
-        <button class="btn next r" style="--i:5" type="button">下一页 →</button>
-      </div>
-    </section>
-
-    <!-- 08 失败 flag -->
-    <section class="slide" data-slide="flag">
-      <div class="slide__inner">
-        <p class="eyebrow r" style="--i:0">年度最失败 flag</p>
-        <div class="bubble-quote r" style="--i:1">
-          <span class="bubble-quote__date">9 月 27 日，你郑重宣布：</span>
-          「从今天开始，必须两点前睡觉！」
-        </div>
-        <p class="r" style="--i:2">本报告检测到的发圈时间：</p>
-        <p class="clocks r" style="--i:3"><span>🕓 4:26</span><span>🕔 5:03</span><span>🕕 6:46</span><span>……</span></p>
-        <div class="meter r" style="--i:4"><i></i><span>flag 完成度：不予置评 🙈</span></div>
-        <p class="r" style="--i:5">生日这天可以重新立一次，<br>这次我们不打分。</p>
+        <p class="post-label r" style="--i:4">💔 年度意难平</p>
+        <article class="post r" style="--i:4">
+          <span class="post__avatar" aria-hidden="true">⭐</span>
+          <div class="post__main">
+            <b class="post__name">星星er</b>
+            <p class="post__text">喜茶要闭店了 不要带走烤黑糖啵啵牛乳 不要带走多肉葡萄</p>
+            <p class="post__time">9月4日</p>
+            <div class="post__box">
+              <p class="post__likes"><span class="heart">♡</span> 一位忠实点赞用户</p>
+              <p class="post__reply"><b>一位忠实点赞用户：</b><span data-type>喜茶带走了啵啵，但布蕾珍珠接住了你 🧋</span></p>
+            </div>
+          </div>
+        </article>
+        <p class="r" style="--i:5"><b>颁奖词：</b>奶茶毒瘾不用戒，生日这天喝两杯，不算犯规 ✌️</p>
         <button class="btn next r" style="--i:6" type="button">下一页 →</button>
       </div>
     </section>
 
-    <!-- 09 戳泡泡 -->
+    <!-- 07 年度游戏 -->
+    <section class="slide" data-slide="game">
+      <div class="slide__inner">
+        <p class="eyebrow r" style="--i:0">年度游戏</p>
+        <h2 class="r" style="--i:1">毫无悬念：第五人格 🎮</h2>
+        <article class="post r" style="--i:2">
+          <span class="post__avatar" aria-hidden="true">⭐</span>
+          <div class="post__main">
+            <b class="post__name">星星er</b>
+            <p class="post__text">呃要玩一辈子第五人格了<span id="bushi" class="bushi">（bushi）</span></p>
+            <p class="post__time">5月1日</p>
+            <div class="post__box">
+              <p class="post__likes"><span class="heart">♡</span> 一位忠实点赞用户</p>
+              <p class="post__reply"><b>一位忠实点赞用户：</b><span data-type data-manual>那这个（bushi）可以删了 ✂️</span></p>
+            </div>
+          </div>
+        </article>
+        <ul class="chips r" style="--i:3">
+          <li>每天玩到两三点</li>
+          <li>半个月直升六阶</li>
+          <li>国服第一（中）</li>
+        </ul>
+        <div id="gacha" class="gacha r" style="--i:4">
+          <p class="gacha__stats"><span>第 <b id="gacha-n">0</b> 把</span><span>项链 <b id="gacha-neck">0</b> 条</span></p>
+          <p id="gacha-result" class="gacha__result" aria-live="polite">7 月你说：都快打了 1000 场了，<br>一条 300 万的项链都没有 😭</p>
+          <button id="gacha-pull" class="btn btn--main" type="button">开一把，摸项链 🎮</button>
+        </div>
+        <div id="gacha-done" class="reveal-box" hidden>
+          <p class="center-text">祝新的一岁，<b class="pink">出金不歪，项链管够！</b></p>
+          <button class="btn next" type="button">下一页 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 寻找 5s -->
+    <section class="slide" data-slide="iphone">
+      <div class="slide__inner">
+        <p class="eyebrow r" style="--i:0">年度连续剧</p>
+        <h2 class="r" style="--i:1">《寻找 iPhone 5s》📱</h2>
+        <article class="post r" style="--i:2">
+          <span class="post__avatar" aria-hidden="true">⭐</span>
+          <div class="post__main">
+            <b class="post__name">星星er</b>
+            <p class="post__text">5s 掉在半个月前吃饭的地方 回来吧我保证以后乖乖的</p>
+            <p class="post__time">9月15日 · EP1</p>
+            <div class="post__box">
+              <p class="post__likes"><span class="heart">♡</span> 一位忠实点赞用户</p>
+              <p class="post__reply"><b>一位忠实点赞用户：</b><span data-type>寻物启事已贴到本网页 📢 5s 看到请速速回家</span></p>
+            </div>
+          </div>
+        </article>
+        <ol class="timeline r" style="--i:3">
+          <li><span>EP2 · 9.17</span><q>一想到原装祖传 5s 不见了就气</q></li>
+          <li><span>EP3 · 9.17</span>重新买一台 5s……被卖家坑了</li>
+          <li><span>EP4 · 9.23</span>买了 6s。<q>但我丢失的 5s 再也回不来了</q></li>
+        </ol>
+        <p class="aside r" style="--i:4">📺 本剧暂未完结，观众已哭晕在厕所。</p>
+        <p class="r" style="--i:5">祝新的一岁，<b>丢掉的东西都会自己走回来。</b></p>
+        <button class="btn next r" style="--i:6" type="button">下一页 →</button>
+      </div>
+    </section>
+
+    <!-- 09 失败 flag -->
+    <section class="slide" data-slide="flag">
+      <div class="slide__inner">
+        <p class="eyebrow r" style="--i:0">年度最失败 flag</p>
+        <article class="post r" style="--i:1">
+          <span class="post__avatar" aria-hidden="true">⭐</span>
+          <div class="post__main">
+            <b class="post__name">星星er</b>
+            <p class="post__text">从今天开始，必须两点前睡觉！</p>
+            <p class="post__time">9月27日</p>
+            <div class="post__box">
+              <p class="post__likes"><span class="heart">♡</span> 一位忠实点赞用户</p>
+              <p class="post__reply"><b>一位忠实点赞用户：</b><span data-type>收到！这就帮你把时间拨回两点 ⏰</span></p>
+            </div>
+          </div>
+        </article>
+        <div class="clock-wrap r" style="--i:2">
+          <svg id="clock" class="clock" viewBox="-100 -100 200 200" role="img" aria-label="一个停在凌晨 5 点 03 分的时钟，可以拖动时针">
+            <circle class="clock__face" r="94"/>
+            <g id="clock-ticks"></g>
+            <text class="clock__num" y="-62">12</text><text class="clock__num" x="68" y="6">3</text><text class="clock__num" y="76">6</text><text class="clock__num" x="-68" y="6">9</text>
+            <text class="clock__moon" y="-30">🌙</text>
+            <line id="hand-m" class="clock__m" y1="12" y2="-72"/>
+            <line id="hand-h" class="clock__h" y1="10" y2="-48"/>
+            <circle class="clock__pin" r="6"/>
+          </svg>
+          <p id="clock-msg" class="clock__msg" aria-live="polite">按住时针，拨回两点试试 👆</p>
+        </div>
+        <p class="aside r" style="--i:3">本报告检测到的发圈时间：4:26 · 5:03 · 5:37 · 6:46……</p>
+        <p class="r" style="--i:4">生日这天可以重新立一次，<br>这次我们不打分。</p>
+        <button class="btn next r" style="--i:5" type="button">下一页 →</button>
+      </div>
+    </section>
+
+    <!-- 10 戳泡泡 -->
     <section class="slide" data-slide="bubbles">
       <div class="slide__inner">
         <p class="eyebrow r" style="--i:0">互动环节</p>
@@ -228,43 +301,92 @@
       </div>
     </section>
 
-    <!-- 10 年度现场 -->
-    <section class="slide" data-slide="concert">
+    <!-- 11 年度现场 -->
+    <section class="slide slide--concert" data-slide="concert">
+      <div id="glow-sea" class="glow-sea" aria-hidden="true"></div>
       <div class="slide__inner">
         <p class="eyebrow r" style="--i:0">年度现场 · 广州</p>
-        <div class="card r" style="--i:1">
-          <p class="card__title">5 月 4 日 🌧</p>
+        <article class="post r" style="--i:1">
+          <span class="post__avatar" aria-hidden="true">⭐</span>
+          <div class="post__main">
+            <b class="post__name">星星er</b>
+            <p class="post__text">幸福的响铃是翔霖 (^_ _^)</p>
+            <p class="post__time">5月6日 · 广州</p>
+            <div class="post__box">
+              <p class="post__likes"><span class="heart">♡</span> 一位忠实点赞用户</p>
+              <p class="post__reply"><b>一位忠实点赞用户：</b><span data-type data-manual>那天你站的那一角，也被看见了 💙</span></p>
+            </div>
+          </div>
+        </article>
+        <div class="card r" style="--i:2">
+          <p class="card__title">两天前 · 5 月 4 日 🌧</p>
           <p>困得滴尿，全身都痛，还下雨。<br><q>别下雨了行吗</q></p>
         </div>
-        <div class="card r" style="--i:2">
-          <p class="card__title">5 月 6 日 🔔</p>
-          <p><q>幸福的响铃是翔霖 (^_ _^)</q></p>
-        </div>
         <p class="r" style="--i:3">能为了喜欢的人跑那么远、淋那么多雨，<br>你真的是<b>很勇敢的女孩子</b>。</p>
-        <p class="r" style="--i:4">你还说过，不在川渝开的演唱会还不如不开 😤<br>那就祝：</p>
-        <p class="wish r" style="--i:5">下一次翔霖双人舞台，<br>在川渝，在你眼前！</p>
-        <button class="btn next r" style="--i:6" type="button">下一页 →</button>
+        <button id="glow" class="btn btn--main r" style="--i:4" type="button">点亮应援棒 💙</button>
+        <div id="glow-text" class="reveal-box" hidden>
+          <p class="center-text">那天大屏上写着：<br><b>「感谢你们让这一角被人看见」</b></p>
+          <p class="wish">下一次翔霖双人舞台，<br>在川渝，在你眼前！</p>
+          <button class="btn next" type="button">下一页 →</button>
+        </div>
       </div>
     </section>
 
-    <!-- 11 年度暖心 -->
+    <!-- 12 年度暖心 -->
     <section class="slide" data-slide="warm">
       <div class="slide__inner">
         <p class="eyebrow r" style="--i:0">年度暖心时刻 💝</p>
-        <div class="card r" style="--i:1">
-          <p class="card__title">7 月 21 日</p>
-          <p>你把刚摸到的三条项链全送给了闺蜜，<br>结果下一把，又出了一条。<br><q>这波应该是善行结善缘了</q></p>
-        </div>
-        <div class="card r" style="--i:2">
+        <p class="r" style="--i:1">7 月 21 日，你把刚摸到的三条项链全送给了闺蜜，结果下一把，又出了一条：</p>
+        <article class="post r" style="--i:2">
+          <span class="post__avatar" aria-hidden="true">⭐</span>
+          <div class="post__main">
+            <b class="post__name">星星er</b>
+            <p class="post__text">这波应该是善行结善缘了</p>
+            <p class="post__time">7月21日</p>
+            <div class="post__box">
+              <p class="post__likes"><span class="heart">♡</span> 一位忠实点赞用户</p>
+              <p class="post__reply"><b>一位忠实点赞用户：</b><span data-type>已核实：善缘到账 ✅</span></p>
+            </div>
+          </div>
+        </article>
+        <div class="card r" style="--i:3">
           <p class="card__title">8 月 17 日</p>
           <p><q>和闺蜜在一起，只是待着做自己的事，就很舒服吧</q></p>
         </div>
-        <p class="r" style="--i:3">你对身边的人这么好，<br><b class="pink">好运当然都记着你呢</b> 🍀</p>
-        <button class="btn next r" style="--i:4" type="button">去许愿 →</button>
+        <p class="r" style="--i:4">你对身边的人这么好，<br><b class="pink">好运当然都记着你呢</b> 🍀</p>
+        <button class="btn next r" style="--i:5" type="button">下一页 →</button>
       </div>
     </section>
 
-    <!-- 12 许愿吹蜡烛 -->
+    <!-- 13 年度人格鉴定 -->
+    <section class="slide" data-slide="cert">
+      <div class="slide__inner">
+        <p class="eyebrow r" style="--i:0">综合以上 565 条</p>
+        <div id="cert" class="cert r" style="--i:1">
+          <p class="cert__title">年度人格鉴定书</p>
+          <dl class="cert__rows">
+            <div><dt>鉴定对象</dt><dd>星星er</dd></div>
+            <div><dt>鉴定依据</dt><dd>半年的朋友圈</dd></div>
+          </dl>
+          <p class="cert__label">鉴定结果</p>
+          <ul class="cert__tags">
+            <li>凌晨营业</li><li>布蕾成瘾</li><li>非酋转欧</li><li>翔霖站岗</li>
+          </ul>
+          <p class="cert__type">「很容易被小事哄好」型人格</p>
+          <dl class="cert__rows">
+            <div><dt>稀有度</dt><dd>SSR · 全服仅此一位</dd></div>
+            <div><dt>特长</dt><dd>好舒服呀 × 12+</dd></div>
+            <div><dt>已知弱点</dt><dd>两点前睡觉</dd></div>
+          </dl>
+          <p class="cert__sign">鉴定机构：<br>一位四年的忠实点赞用户<br>2026 年 10 月 25 日</p>
+          <span id="seal" class="seal" aria-hidden="true">好舒服呀<br>鉴定专用章</span>
+        </div>
+        <button id="stamp" class="btn btn--main r" style="--i:2" type="button">按一下，盖章生效 🔖</button>
+        <button id="cert-next" class="btn next" type="button" hidden>去许愿 →</button>
+      </div>
+    </section>
+
+    <!-- 14 许愿吹蜡烛 -->
     <section class="slide slide--cake" data-slide="cake">
       <div class="slide__inner center">
         <div id="cake-stage" class="cake-stage" data-step="intro">
@@ -326,7 +448,7 @@
       </div>
     </section>
 
-    <!-- 13 结尾 -->
+    <!-- 15 结尾 -->
     <section class="slide slide--final" data-slide="final">
       <div class="slide__inner">
         <div class="lace" aria-hidden="true"></div>
@@ -342,9 +464,34 @@
         </ul>
         <p class="signature r" style="--i:5">—— 一位四年的忠实点赞用户</p>
         <p class="aside r" style="--i:6">P.S. 看完就好，不用回～ 继续互赞 👍</p>
-        <button id="make-card" class="btn btn--main r" style="--i:7" type="button">📸 生成我的年度报告卡片</button>
-        <button id="replay" class="skip r" style="--i:8" type="button">↺ 从头再看一遍</button>
+        <button class="btn btn--main next r" style="--i:7" type="button">🎬 还没完，看片尾</button>
       </div>
+    </section>
+
+    <!-- 16 片尾字幕 -->
+    <section class="slide slide--credits" data-slide="credits">
+      <div class="credits">
+        <div id="credits-roll" class="credits__roll">
+          <p class="credits__title">星星er<small>2026 朋友圈年度报告 · 生日特别版</small></p>
+          <dl>
+            <dt>出品</dt><dd>一位四年的忠实点赞用户</dd>
+            <dt>数据来源</dt><dd>你的 565 条朋友圈<small>4.20 — 10.16，共 180 天</small></dd>
+            <dt>统计方式</dt><dd>一条一条看完的</dd>
+            <dt>年度 BGM</dt><dd>Someone to Love<small>你 5 月 3 日分享的</small></dd>
+            <dt>特别鸣谢</dt><dd>布蕾珍珠<br>第五人格 · 第 1810 把<br>翔霖<br>闺蜜<br>那 2778 层楼梯<br>那台还没回家的 iPhone 5s</dd>
+            <dt>友情出演（已拉黑）</dt><dd>山葵味奶茶<br>一点点可可芭蕾<br>物业停电</dd>
+            <dt>技术支持</dt><dd>好舒服呀</dd>
+          </dl>
+          <p class="credits__note">本片全程未消耗你的任何 token<small>（你说过，提供情绪价值很费 token 的）</small></p>
+          <p class="credits__end">没有被折叠。<br>每一条，都有人看。</p>
+          <p class="credits__bday">🎂 10.25 · 生日快乐</p>
+        </div>
+      </div>
+      <div id="credits-actions" class="credits__actions" hidden>
+        <button id="make-card" class="btn btn--main" type="button">📸 生成我的年度报告卡片</button>
+        <button id="replay" class="skip" type="button">↺ 从头再看一遍</button>
+      </div>
+      <button id="credits-skip" class="skip credits__skip" type="button">跳过 ›</button>
     </section>
   </main>
 
@@ -363,6 +510,6 @@
     <span aria-hidden="true">♪</span><span class="sound-toggle__text">音乐</span>
   </button>
 
-  <noscript><style>.slide{position:static!important;opacity:1!important;visibility:visible!important;transform:none!important}.r{opacity:1!important}#start,#skip-type,.next,.sound-toggle{display:none!important}[hidden]{display:block!important}</style></noscript>
+  <noscript><style>.slide{position:static!important;opacity:1!important;visibility:visible!important;transform:none!important}.r{opacity:1!important}#start,#skip-type,.next,.sound-toggle,#credits-skip{display:none!important}[hidden]{display:block!important}.credits{position:static!important}.credits__roll{position:static!important}</style></noscript>
 </body>
 </html>
