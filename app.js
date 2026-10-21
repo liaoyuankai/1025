@@ -35,14 +35,16 @@
     if (event.key === "ArrowLeft" && current > 1) show(current - 1);
   });
 
-  /* ---------- 音乐：背景音乐 + 吹蜡烛后的生日歌 ---------- */
+  /* ---------- 音乐：全程 Someone to Love，关灯许愿时换成生日歌 ---------- */
   const bgm = new Audio("assets/bgm.m4a");
   bgm.loop = true;
-  bgm.volume = 0.75;
   const song = new Audio("assets/happy-birthday.m4a");
-  song.volume = 0.9;
+  const CHORUS_AT = 96; // 1:36 副歌第一拍，前面约 1 秒几乎没声
+  // iPhone 不让网页调音量（volume 永远是 1），所以两首歌已在文件里调成一样响，那边切歌直接停/放
+  const canFade = (() => { const probe = new Audio(); probe.volume = 0.5; return probe.volume === 0.5; })();
   let track = bgm;
   let soundOn = false;
+  let muted = false; // 她自己点了暂停
 
   function setSound(playing) {
     soundOn = playing;
@@ -60,28 +62,34 @@
     }
   }
 
-  function fadeTo(audio, volume, ms = 1200) {
-    const from = audio.volume;
+  function fadeOut(audio, ms = 700) {
+    if (!canFade) { audio.pause(); return; }
+    const id = (audio.fadeId = (audio.fadeId || 0) + 1);
     const start = performance.now();
     const step = (now) => {
+      if (audio.fadeId !== id) return;
       const t = Math.min(1, (now - start) / ms);
-      audio.volume = from + (volume - from) * t;
+      audio.volume = 1 - t;
       if (t < 1) nextTick(step);
+      else { audio.pause(); audio.volume = 1; }
     };
     nextTick(step);
   }
 
-  // iOS 只允许在点击里第一次播放，所以开场时先把生日歌静音“预热”一下
-  function primeSong() {
-    song.muted = true;
-    song.play().then(() => {
-      song.pause();
-      song.currentTime = 0;
-      song.muted = false;
-    }).catch(() => { song.muted = false; });
+  // 切歌：旧的淡出，新的从 at 秒开始；她关了音乐的话只记住位置
+  function switchTo(next, at = 0) {
+    const prev = track;
+    track = next;
+    next.fadeId = (next.fadeId || 0) + 1;
+    next.volume = 1;
+    next.currentTime = at;
+    if (muted) return;
+    if (prev !== next) fadeOut(prev);
+    play(next);
   }
 
   soundButton?.addEventListener("click", () => {
+    muted = soundOn;
     if (soundOn) {
       track.pause();
       setSound(false);
@@ -90,11 +98,7 @@
     }
   });
   bgm.addEventListener("error", () => { if (soundButton && track === bgm) soundButton.hidden = true; });
-  song.addEventListener("ended", () => {
-    track = bgm;
-    bgm.volume = 0.75;
-    if (soundOn) play(bgm);
-  });
+  song.addEventListener("ended", () => setSound(false));
   document.addEventListener("visibilitychange", () => {
     if (document.hidden && soundOn) { track.pause(); setSound(false); }
   });
@@ -161,7 +165,6 @@
   startButton?.addEventListener("click", () => {
     if (soundButton) soundButton.hidden = false;
     play(bgm);
-    primeSong();
     show(1);
     confetti(40);
   });
@@ -245,7 +248,7 @@
     });
   });
 
-  /* ---------- 12 蛋糕仪式：关灯 → 写愿望 → 长按吹 → 开灯唱歌 → 切蛋糕 ---------- */
+  /* ---------- 12 蛋糕仪式：关灯唱歌 → 写愿望 → 长按吹 → 副歌响起开灯 → 切蛋糕 ---------- */
   const cakeSlide = document.querySelector(".slide--cake");
   const stage = document.querySelector("#cake-stage");
   const note = document.querySelector("#note");
@@ -262,9 +265,28 @@
     if (stage) stage.dataset.step = step;
   }
 
+  function startLyrics() {
+    let i = 0;
+    const nextLyric = () => {
+      if (!lyrics) return;
+      lyrics.textContent = lyricLines[i % lyricLines.length];
+      lyrics.classList.remove("is-swap");
+      void lyrics.offsetWidth;
+      lyrics.classList.add("is-swap");
+      i += 1;
+    };
+    nextLyric();
+    lyricTimer = window.setInterval(nextLyric, 2600);
+  }
+
+  const stopLyrics = () => window.clearInterval(lyricTimer);
+  song.addEventListener("ended", stopLyrics);
+
+  // 生日歌必须在这次点击里开始放，iPhone 才不会拦
   document.querySelector("#lights-off")?.addEventListener("click", () => {
     cakeSlide?.classList.add("is-dark");
-    if (soundOn) fadeTo(bgm, 0.2);
+    switchTo(song);
+    startLyrics();
     setStep("note");
   });
 
@@ -330,39 +352,31 @@
     if (blownOut) return;
     blownOut = true;
     holding = false;
+    stopLyrics();
     stage?.classList.remove("is-blowing");
     stage?.classList.add("is-out");
-    window.setTimeout(lightsOn, reduceMotion ? 0 : 900);
+    // 从副歌前那段安静处接回 Someone to Love，等副歌第一拍响起的那一刻开灯
+    const lead = reduceMotion ? 0 : 0.9;
+    switchTo(bgm, CHORUS_AT - lead);
+    const startedAt = performance.now();
+    const waitForChorus = (now) => {
+      const playing = !bgm.paused;
+      if ((playing && bgm.currentTime >= CHORUS_AT - 0.05) || now - startedAt >= (playing ? 2000 : lead * 1000)) lightsOn();
+      else nextTick(waitForChorus);
+    };
+    nextTick(waitForChorus);
   }
 
   function lightsOn() {
     cakeSlide?.classList.remove("is-dark");
     setStep("lit");
     confetti(110);
-    if (soundOn) {
-      bgm.pause();
-      track = song;
-      song.currentTime = 0;
-      play(song);
-    }
-    let i = 0;
-    const nextLyric = () => {
-      if (!lyrics) return;
-      lyrics.textContent = lyricLines[i % lyricLines.length];
-      lyrics.classList.remove("is-swap");
-      void lyrics.offsetWidth;
-      lyrics.classList.add("is-swap");
-      i += 1;
-    };
-    nextLyric();
-    lyricTimer = window.setInterval(nextLyric, 2600);
   }
 
   // 切蛋糕：在蛋糕上竖着划一下，或者点“帮我切”
   let cutStartY = null;
   function cutCake() {
     if (!cake || !cakeWrap || stage?.dataset.step !== "lit") return;
-    window.clearInterval(lyricTimer);
     cakeWrap.classList.add("is-cutting");
     window.setTimeout(() => {
       const left = cake.cloneNode(true);

@@ -113,6 +113,7 @@ p { margin: 0 0 12px; font-size: 16px; line-height: 1.85; }
 .meta div:last-child { border-bottom: 0; }
 .meta dt { color: var(--ink-soft); }
 .meta dd { margin: 0; font-weight: 800; text-align: right; }
+.meta dd small { display: block; margin-top: 2px; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
 
 /* 被折叠的朋友圈 */
 .moment { background: #fff; border-radius: 18px; padding: 14px 16px 10px; margin-bottom: 10px; box-shadow: 0 4px 0 var(--lilac-soft); }
@@ -240,7 +241,10 @@ p { margin: 0 0 12px; font-size: 16px; line-height: 1.85; }
 @keyframes fold-away { 40% { transform: scale(.55, .2) rotate(8deg); border-radius: 50%; } 100% { transform: translate(0, 170px) scale(.05) rotate(220deg); opacity: 0; } }
 
 /* 蛋糕本体 */
-.cake-wrap { position: relative; width: 240px; height: 230px; margin: 6px auto 4px; touch-action: none; user-select: none; -webkit-user-select: none; }
+.cake-wrap { position: relative; width: 240px; height: 230px; margin: 6px auto 4px; touch-action: none; user-select: none; -webkit-user-select: none; transition: transform .6s ease, margin .6s ease; }
+/* 写纸条时蛋糕先缩小让位，免得按钮掉到屏幕外；折好后再长回来 */
+.cake-stage[data-step="note"] .cake-wrap { transform: scale(.65); margin: -40px auto -41px; }
+.cake-stage[data-step="note"] .cake-copy { min-height: 0; }
 .cake { position: absolute; inset: 0; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
 .cake::before { content: ""; position: absolute; left: 50%; top: 4px; width: 220px; height: 150px; transform: translateX(-50%); background: radial-gradient(ellipse at 50% 40%, rgba(255,205,120,.55), transparent 65%); opacity: 0; transition: opacity 1s ease; pointer-events: none; }
 .is-dark .cake::before { opacity: calc(1 - var(--blow)); }
@@ -278,6 +282,7 @@ p { margin: 0 0 12px; font-size: 16px; line-height: 1.85; }
 /* 歌词 */
 .lyrics { min-height: 34px; margin-top: 4px; font-size: 18px; font-weight: 800; color: var(--pink); }
 .lyrics.is-swap { animation: rise .45s ease both; }
+.slide--cake.is-dark .lyrics { color: #ffc6de; text-shadow: 0 0 14px rgba(255,140,190,.55); }
 
 /* 切蛋糕 */
 .cut-hint { margin: 0 0 6px; font-size: 14px; color: var(--ink-soft); }
