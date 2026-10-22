@@ -111,8 +111,8 @@ p { margin: 0 0 12px; font-size: 16px; line-height: 1.85; }
 .meta { margin: 8px 0 0; width: 100%; max-width: 320px; background: var(--card); border-radius: 18px; padding: 8px 18px; box-shadow: 0 4px 0 var(--lilac-soft); }
 .meta div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px dashed var(--lilac-soft); font-size: 14px; }
 .meta div:last-child { border-bottom: 0; }
-.meta dt { color: var(--ink-soft); }
-.meta dd { margin: 0; font-weight: 800; text-align: right; }
+.meta dt { flex-shrink: 0; color: var(--ink-soft); }
+.meta dd { margin: 0; font-weight: 800; text-align: right; text-wrap: balance; }
 .meta dd small { display: block; margin-top: 2px; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
 
 /* 被折叠的朋友圈 */
@@ -166,9 +166,9 @@ p { margin: 0 0 12px; font-size: 16px; line-height: 1.85; }
 .post.is-liked .heart { color: var(--pink); animation: heart .5s ease; }
 @keyframes heart { 40% { transform: scale(1.7); } }
 .post__reply { margin: 4px 0 0; padding-top: 4px; border-top: 1px solid #e9e5f1; font-size: 14px; line-height: 1.6; }
-.post__reply b { color: #576b95; font-weight: 700; }
+.post__reply b { display: block; color: #576b95; font-size: 13px; font-weight: 700; }
 .post__reply .ghost { visibility: hidden; }
-.post__reply.is-waiting b::after { content: "正在输入…"; color: #b5aec6; font-weight: 500; animation: blink 1.2s steps(1) infinite; }
+.post__reply.is-waiting b::after { display: block; content: "正在输入…"; color: #b5aec6; font-weight: 500; animation: blink 1.2s steps(1) infinite; }
 
 /* 发圈日历 */
 .cal { background: var(--card); border-radius: 18px; padding: 10px 12px 8px; margin-bottom: 12px; box-shadow: 0 4px 0 var(--lilac-soft); }
@@ -282,6 +282,33 @@ p { margin: 0 0 12px; font-size: 16px; line-height: 1.85; }
 .credits__actions .skip { color: #d8cbff; }
 .credits__skip { position: absolute; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); margin: 0; color: #c3b3ea; }
 .credits__skip::before { content: "按住屏幕快进 · "; opacity: .7; }
+.credits__egg { margin: 6px 0 0; font-size: 12px; color: #a996dc; }
+
+/* 附录：备忘录（照着 iPhone 自带备忘录的样子） */
+.memo { margin-bottom: 14px; padding: 10px 16px 14px; background: #fffef9; border-radius: 16px; box-shadow: 0 4px 0 var(--lilac-soft), 0 10px 24px rgba(107,79,191,.08); }
+.memo__bar { display: flex; justify-content: space-between; margin: 0 -2px 6px; font-size: 14px; font-weight: 600; color: #e2a300; }
+.memo__date { margin: 0; text-align: center; font-size: 11px; color: #a7a2ad; }
+.memo__title { margin: 6px 0 6px; font-size: 21px; font-weight: 900; color: #1f1d24; }
+.memo__list { margin: 0; padding: 0; list-style: none; font-size: 14px; line-height: 1.6; color: #2b2833; }
+.memo__list li { position: relative; padding: 3px 0 3px 14px; opacity: 0; }
+.memo__list li::before { content: "-"; position: absolute; left: 0; color: #8a8592; }
+.memo__list small { margin-left: 6px; font-size: 11px; color: #b4afba; font-variant-numeric: tabular-nums; }
+.slide.is-active .memo__list li { animation: memo-in .45s ease both; animation-delay: calc(var(--n) * .42s + .9s); }
+@keyframes memo-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.memo__cursor { min-height: 25px; }
+.memo__cursor::after { content: ""; display: inline-block; width: 2px; height: 17px; margin-top: 3px; vertical-align: top; background: #e2a300; animation: blink 1s steps(1) infinite; }
+
+/* 彩蛋：连点「某位病娇小帅」 */
+.me { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.me.is-poked { animation: poke .35s ease; }
+@keyframes poke { 50% { color: var(--pink); text-shadow: 0 0 10px rgba(255,95,162,.5); } }
+.egg { width: min(100%, 340px); padding: 22px 22px 18px; background: #fffaf2; border-radius: 18px; text-align: center; box-shadow: 0 16px 40px rgba(0,0,0,.35); animation: burst .5s ease both; }
+.egg p { margin: 0 0 12px; font-size: 15px; line-height: 1.75; color: var(--ink); }
+.egg .egg__kicker { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--lilac); }
+.egg .egg__title { font-size: 24px; font-weight: 900; color: var(--purple); }
+.egg .egg__line { font-size: 19px; font-weight: 900; color: var(--pink); }
+.egg .egg__sign { text-align: right; font-size: 14px; font-weight: 700; color: var(--ink-soft); }
+.egg .btn { margin-top: 4px; }
 
 /* 时间线 */
 .timeline { margin: 0 0 14px; padding: 0 0 0 18px; list-style: none; border-left: 3px dotted var(--lilac); }
@@ -347,7 +374,7 @@ p { margin: 0 0 12px; font-size: 16px; line-height: 1.85; }
 .slide--final .shout { font-size: clamp(24px, 7.4vw, 32px); white-space: nowrap; text-align: center; }
 .wishes { margin: 0 0 16px; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .wishes li { background: var(--card); border-radius: 14px; padding: 10px 12px; font-size: 15px; font-weight: 700; box-shadow: 0 3px 0 var(--lilac-soft); }
-.signature { text-align: right; font-weight: 800; color: var(--purple); margin-top: 6px; }
+.signature { text-align: right; text-wrap: balance; font-weight: 800; color: var(--purple); margin-top: 6px; }
 
 /* 蛋糕仪式 */
 .slide--cake::before {

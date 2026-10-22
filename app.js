@@ -162,7 +162,46 @@
     window.setTimeout(() => el.scrollIntoView({behavior: reduceMotion ? "auto" : "smooth", block}), reduceMotion ? 0 : 350);
   };
 
-  /* ---------- 迟到的评论：翻到这一页，「一位忠实点赞用户」的评论一个字一个字打出来 ---------- */
+  /* ---------- 认识的日子：2022.10.30 认识，按她打开网页的那天算（预览可加 ?today=2026-10-25） ---------- */
+  const MET = new Date(2022, 9, 30);
+  const fakeToday = location.search.match(/today=(\d{4})-(\d{1,2})-(\d{1,2})/);
+  const today = fakeToday ? new Date(+fakeToday[1], fakeToday[2] - 1, +fakeToday[3]) : new Date();
+  today.setHours(0, 0, 0, 0);
+  const DAYS_KNOWN = Math.round((today - MET) / 86400000) + 1; // 认识那天算第 1 天
+  const WHEN = (() => {
+    const years = today.getFullYear() - MET.getFullYear();
+    const toAnniversary = Math.round((new Date(today.getFullYear(), 9, 30) - today) / 86400000);
+    const cn = "零一二三四五六七八九十"[years] || years;
+    if (toAnniversary === 0) return `今天刚好认识${cn}周年的`;
+    if (toAnniversary > 0 && toAnniversary <= 30) return `再过${toAnniversary}天就认识${cn}周年的`;
+    return `认识第 ${DAYS_KNOWN} 天的`;
+  })();
+  document.querySelectorAll("[data-when]").forEach((el) => { el.textContent = WHEN; });
+  document.querySelectorAll("[data-days]").forEach((el) => { el.textContent = DAYS_KNOWN.toLocaleString("en-US"); });
+
+  /* ---------- 彩蛋：连点 5 下任意一处「某位病娇小帅」 ---------- */
+  const egg = document.querySelector("#egg");
+  let eggTaps = 0;
+  let eggTimer = 0;
+  document.addEventListener("click", (event) => {
+    const me = event.target.closest(".me");
+    if (!me || !egg) return;
+    me.classList.remove("is-poked");
+    void me.offsetWidth; // 重新触发闪一下的动画
+    me.classList.add("is-poked");
+    eggTaps += 1;
+    window.clearTimeout(eggTimer);
+    eggTimer = window.setTimeout(() => { eggTaps = 0; }, 1500);
+    if (eggTaps < 5) return;
+    eggTaps = 0;
+    egg.hidden = false;
+    navigator.vibrate?.(40);
+    confetti(50);
+  });
+  document.querySelector("#egg-close")?.addEventListener("click", () => { egg.hidden = true; });
+  egg?.addEventListener("click", (event) => { if (event.target === egg) egg.hidden = true; });
+
+  /* ---------- 迟到的评论：翻到这一页，「某位病娇小帅」的评论一个字一个字打出来 ---------- */
   document.querySelectorAll(".post__reply [data-type]").forEach((reply) => {
     const typed = document.createElement("span");
     const ghost = document.createElement("span");
@@ -360,7 +399,7 @@
     }, 500);
   };
 
-  /* ---------- 炸开特效：闪光、冲击波、碎片、拟声字，屏幕跟着抖一抖（泡泡、出金、盖章共用） ---------- */
+  /* ---------- 炸开特效：闪光、冲击波、碎片、拟声字，屏幕跟着抖一抖（泡泡、出项链、盖章共用） ---------- */
   const boomWords = ["啪！", "砰！", "BOOM!", "爆！", "没了！", "嘭！"];
   const shardColors = ["#ff5fa2", "#9b7bff", "#8fd3ff", "#ffd36e", "#ffb3d4"];
 
@@ -392,14 +431,14 @@
     return [box.left + box.width / 2, box.top + box.height / 2];
   };
 
-  /* ---------- 07 摸项链：先亲手开三把，再一路快进到第 1810 把出金 ---------- */
+  /* ---------- 07 摸项链：先亲手开三把，再一路快进到第 1810 把出 300 万 ---------- */
   const gacha = document.querySelector("#gacha");
   const gachaButton = document.querySelector("#gacha-pull");
   const gachaN = document.querySelector("#gacha-n");
   const gachaNeck = document.querySelector("#gacha-neck");
   const gachaResult = document.querySelector("#gacha-result");
-  const firstGames = [["💧 摸到一条项链……不是 300 万的", 1], ["🙃 空手而归，下一把", 0], ["🟣 又是一条普通项链", 1]];
-  const rushLines = ["歪了", "又歪了", "普通项链 +1", "空手", "还是歪了", "……", "差一点", "再来一把"];
+  const firstGames = [["💧 摸到一条项链，鉴定完……不是 300 万", 1], ["🙃 这把没摸到项链，下一把", 0], ["🔍 又一条，鉴定……还是不是 300 万", 1]];
+  const rushLines = ["鉴定：不是 300 万", "没摸到", "项链 +1，不是 300 万", "撤离！", "又不是", "……", "差一点", "再来一把"];
   let games = 0;
   let necklaces = 0;
 
@@ -447,8 +486,8 @@
     gacha?.classList.remove("is-rushing");
     gacha?.classList.add("is-gold");
     setGacha(1810, 89);
-    if (gachaResult) gachaResult.innerHTML = "💎 第 1810 把 · 第 89 条<br><b>300 万项链，出了！！</b>";
-    if (gacha && !reduceMotion) explode(...centerOf(gacha), true, "出金！");
+    if (gachaResult) gachaResult.innerHTML = "💎 第 1810 把 · 第 89 条项链<br><b>鉴定结果：300 万！！</b>";
+    if (gacha && !reduceMotion) explode(...centerOf(gacha), true, "300 万！");
     confetti(100);
     document.querySelector("#bushi")?.classList.add("is-cut");
     typeReply(document.querySelector('[data-slide="game"] [data-type]'), 900);
@@ -903,7 +942,7 @@
 
     text(ctx, "「爱吃薯条的女孩，运气不会太差。」", W / 2, 1620, 50, "#6b4fbf", 900, "center");
     text(ctx, "🎂 10.25 · 生日快乐", W / 2, 1715, 56, "#ff5fa2", 900, "center");
-    text(ctx, "数据整理：一位四年的忠实点赞用户", W / 2, 1790, 28, "#6f6390", 500, "center");
+    text(ctx, `数据整理：${WHEN}某位病娇小帅`, W / 2, 1790, 28, "#6f6390", 500, "center");
 
     return canvas.toDataURL("image/png");
   }
