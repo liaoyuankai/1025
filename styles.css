@@ -166,9 +166,9 @@ p { margin: 0 0 12px; font-size: 16px; line-height: 1.85; }
 .post.is-liked .heart { color: var(--pink); animation: heart .5s ease; }
 @keyframes heart { 40% { transform: scale(1.7); } }
 .post__reply { margin: 4px 0 0; padding-top: 4px; border-top: 1px solid #e9e5f1; font-size: 14px; line-height: 1.6; }
-.post__reply b { display: block; color: #576b95; font-size: 13px; font-weight: 700; }
+.post__reply b { color: #576b95; font-weight: 700; }
 .post__reply .ghost { visibility: hidden; }
-.post__reply.is-waiting b::after { display: block; content: "正在输入…"; color: #b5aec6; font-weight: 500; animation: blink 1.2s steps(1) infinite; }
+.post__reply.is-waiting b::after { content: "正在输入…"; color: #b5aec6; font-weight: 500; animation: blink 1.2s steps(1) infinite; }
 
 /* 发圈日历 */
 .cal { background: var(--card); border-radius: 18px; padding: 10px 12px 8px; margin-bottom: 12px; box-shadow: 0 4px 0 var(--lilac-soft); }

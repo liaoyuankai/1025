@@ -179,7 +179,20 @@
   document.querySelectorAll("[data-when]").forEach((el) => { el.textContent = WHEN; });
   document.querySelectorAll("[data-days]").forEach((el) => { el.textContent = DAYS_KNOWN.toLocaleString("en-US"); });
 
-  /* ---------- 彩蛋：连点 5 下任意一处「某位病娇小帅」 ---------- */
+  /* ---------- 点赞栏：每次打开随机挑 2~3 个马甲（其实全是同一个人，片尾揭晓） ---------- */
+  const ALIASES = ["粉毛小帅", "病娇男大", "大廖一世", "非酋陪跑员", "奶茶搭子候选人", "两点睡觉监督员", "5s 寻物启事发起人"];
+  document.querySelectorAll("[data-likers]").forEach((likers) => {
+    const pool = [...ALIASES];
+    const picked = Array.from({ length: 2 + Math.floor(Math.random() * 2) }, () => pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+    likers.replaceChildren(...picked.flatMap((name, i) => {
+      const span = document.createElement("span");
+      span.className = "me";
+      span.textContent = name;
+      return i ? ["，", span] : [span];
+    }));
+  });
+
+  /* ---------- 彩蛋：连点 5 下任意一个马甲 ---------- */
   const egg = document.querySelector("#egg");
   let eggTaps = 0;
   let eggTimer = 0;
@@ -201,7 +214,7 @@
   document.querySelector("#egg-close")?.addEventListener("click", () => { egg.hidden = true; });
   egg?.addEventListener("click", (event) => { if (event.target === egg) egg.hidden = true; });
 
-  /* ---------- 迟到的评论：翻到这一页，「某位病娇小帅」的评论一个字一个字打出来 ---------- */
+  /* ---------- 迟到的评论：翻到这一页，马甲们的评论一个字一个字打出来 ---------- */
   document.querySelectorAll(".post__reply [data-type]").forEach((reply) => {
     const typed = document.createElement("span");
     const ghost = document.createElement("span");
@@ -942,7 +955,7 @@
 
     text(ctx, "「爱吃薯条的女孩，运气不会太差。」", W / 2, 1620, 50, "#6b4fbf", 900, "center");
     text(ctx, "🎂 10.25 · 生日快乐", W / 2, 1715, 56, "#ff5fa2", 900, "center");
-    text(ctx, `数据整理：${WHEN}某位病娇小帅`, W / 2, 1790, 28, "#6f6390", 500, "center");
+    text(ctx, "数据整理：凯凯（和他的 7 个马甲）", W / 2, 1790, 28, "#6f6390", 500, "center");
 
     return canvas.toDataURL("image/png");
   }
