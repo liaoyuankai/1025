@@ -146,17 +146,6 @@
     window.setTimeout(() => confettiLayer.replaceChildren(), 4600);
   }
 
-  function countUp(el, target, ms = 1200) {
-    if (reduceMotion) { el.textContent = target; return; }
-    const start = performance.now();
-    const step = (now) => {
-      const t = Math.min(1, (now - start) / ms);
-      el.textContent = Math.round(target * (1 - (1 - t) ** 3));
-      if (t < 1) nextTick(step);
-    };
-    nextTick(step);
-  }
-
   const reveal = (el, block = "end") => {
     if (!el) return;
     el.hidden = false;
@@ -370,7 +359,6 @@
   calGrid?.addEventListener("pointermove", (event) => highlight(cellAt(event)));
 
   enterHooks.calendar = (slide) => {
-    slide.querySelectorAll("[data-count]").forEach((el) => countUp(el, Number(el.dataset.count)));
     // 先替她点亮纪录那天，示范一下格子能划
     window.setTimeout(() => { if (!hotCell) highlight(calGrid?.querySelector(".is-max")); }, reduceMotion ? 0 : 2400);
   };
