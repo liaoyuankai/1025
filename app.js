@@ -693,18 +693,23 @@
     toBlowStep(false);
   });
 
-  // 长按吹气：按住时火苗慢慢变小，松手会慢慢恢复，累计约 1.8 秒吹灭
+  // 长按吹气：按住时火苗慢慢变小，累计约 1.8 秒吹灭；每按一下也算吹一口，
+  // vivo 的「超级拖动」会在长按半秒左右抢走触摸，连点同样能吹灭
   const BLOW_MS = 1800;
+  const PUFF = 0.2;
+  const RECOVER_DELAY = 900; // 松手后先停一会儿再慢慢恢复，给连点留时间
   let blow = 0;
   let holding = false;
   let blownOut = false;
   let lastFrame = 0;
+  let lastRelease = 0;
   let looping = false;
 
   function blowFrame(now) {
     const dt = now - lastFrame;
     lastFrame = now;
-    blow = holding ? Math.min(1, blow + dt / BLOW_MS) : Math.max(0, blow - dt / (BLOW_MS * 1.5));
+    if (holding) blow = Math.min(1, blow + dt / BLOW_MS);
+    else if (now - lastRelease > RECOVER_DELAY) blow = Math.max(0, blow - dt / (BLOW_MS * 1.5));
     stage?.style.setProperty("--blow", blow.toFixed(3));
     blowButton?.style.setProperty("--blow", blow.toFixed(3));
     if (blow >= 1) { looping = false; return candlesOut(); }
@@ -717,6 +722,7 @@
     event.preventDefault();
     try { blowButton?.setPointerCapture(event.pointerId); } catch { /* 部分浏览器不支持 */ }
     holding = true;
+    blow = Math.min(1, blow + PUFF);
     stage?.classList.add("is-blowing");
     if (!looping) {
       looping = true;
@@ -726,12 +732,17 @@
   }
 
   function stopBlow() {
+    if (holding) lastRelease = performance.now();
     holding = false;
     stage?.classList.remove("is-blowing");
   }
 
   blowButton?.addEventListener("pointerdown", startBlow);
   ["pointerup", "pointercancel", "pointerleave"].forEach((type) => blowButton?.addEventListener(type, stopBlow));
+  // 触摸被系统手势抢走（超级拖动、侧滑返回等）：提示改用连点
+  blowButton?.addEventListener("pointercancel", () => {
+    if (!blownOut && blowButton) blowButton.textContent = "按不住？连点也行 👆";
+  });
   blowButton?.addEventListener("contextmenu", (event) => event.preventDefault());
 
   function candlesOut() {
