@@ -687,7 +687,30 @@
     setStep("blow");
   }
 
-  document.querySelector("#fold-note")?.addEventListener("click", () => toBlowStep(Boolean(wishText?.value.trim())));
+  // 纸条空着就点「放进蛋糕」：先弹一次窗，让她再决定一次写不写；只问这一次
+  const wishAsk = document.querySelector("#wish-ask");
+  let askedEmpty = false;
+  const backToWrite = () => {
+    if (wishAsk) wishAsk.hidden = true;
+    wishText?.focus();
+  };
+
+  document.querySelector("#fold-note")?.addEventListener("click", () => {
+    const hasWish = Boolean(wishText?.value.trim());
+    if (!hasWish && !askedEmpty && wishAsk) {
+      askedEmpty = true;
+      wishAsk.hidden = false;
+      return;
+    }
+    toBlowStep(hasWish);
+  });
+  document.querySelector("#wish-write")?.addEventListener("click", backToWrite);
+  wishAsk?.addEventListener("click", (event) => { if (event.target === wishAsk) backToWrite(); });
+  document.querySelector("#wish-skip")?.addEventListener("click", () => {
+    if (wishAsk) wishAsk.hidden = true;
+    if (wishText) wishText.value = "";
+    toBlowStep(false);
+  });
   document.querySelector("#skip-note")?.addEventListener("click", () => {
     if (wishText) wishText.value = "";
     toBlowStep(false);
