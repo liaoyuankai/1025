@@ -37,7 +37,7 @@
     if (event.key === "ArrowLeft" && current > 1) show(current - 1);
   });
 
-  /* ---------- 音乐：全程 Someone to Love，关灯许愿时换成生日歌 ---------- */
+  /* ---------- 音乐：Someone to Love，关灯许愿时换成生日歌，吹灭接回副歌开灯，切蛋糕后一直循环生日歌 ---------- */
   const bgm = new Audio("assets/bgm.m4a?v=3");
   bgm.loop = true;
   const song = new Audio("assets/happy-birthday.m4a?v=3");
@@ -796,8 +796,11 @@
   // 切蛋糕：在蛋糕上竖着划一下，或者点“帮我切”
   let cutStartY = null;
   function cutCake() {
-    if (!cake || !cakeWrap || stage?.dataset.step !== "lit") return;
+    if (!cake || !cakeWrap || stage?.dataset.step !== "lit" || cakeWrap.classList.contains("is-cutting")) return;
     cakeWrap.classList.add("is-cutting");
+    // 切下去的这一刻换回生日歌，之后结尾和片尾都循环它；趁手还在屏幕上就切，被拦的话松手那下会补放
+    song.loop = true;
+    switchTo(song);
     window.setTimeout(() => {
       const left = cake.cloneNode(true);
       const right = cake.cloneNode(true);
