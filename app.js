@@ -941,7 +941,6 @@
     // 发圈日历：和第 3 页同一份数据，一行一个月
     card(ctx, 70, 1210, 940, 320);
     text(ctx, "发圈日历", 110, 1272, 32, "#9b7bff");
-    text(ctx, "586 条 · 181 / 187 天", 970, 1272, 30, "#ff5fa2", 800, "right");
     const heat = ["#efe9f8", "#ffe3f0", "#ffc2dc", "#ff8fc0", "#ff5fa2"];
     const level = (n) => (n === 0 ? 0 : n === 1 ? 1 : n <= 3 ? 2 : n <= 5 ? 3 : 4);
     for (let m = 4; m <= 10; m += 1) {
@@ -959,7 +958,7 @@
 
     text(ctx, "「爱吃薯条的女孩，运气不会太差。」", W / 2, 1620, 50, "#6b4fbf", 900, "center");
     text(ctx, "🎂 10.25 · 生日快乐", W / 2, 1715, 56, "#ff5fa2", 900, "center");
-    text(ctx, "数据整理：凯凯（和他的 7 个马甲）", W / 2, 1790, 28, "#6f6390", 500, "center");
+    text(ctx, "数据整理：某粉发男子", W / 2, 1790, 28, "#6f6390", 500, "center");
 
     return canvas.toDataURL("image/png");
   }
