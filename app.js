@@ -510,13 +510,13 @@
     reveal(document.querySelector("#gacha-done"));
   }
 
-  /* ---------- 09 拨时钟：时针拖到哪都行，一松手就自己弹回凌晨 5:03 ---------- */
+  /* ---------- 09 拨时钟：时针拖到哪都行，一松手就自己弹回凌晨三点 ---------- */
   const clock = document.querySelector("#clock");
   const handH = document.querySelector("#hand-h");
   const handM = document.querySelector("#hand-m");
   const clockMsg = document.querySelector("#clock-msg");
-  const HOME = (5 + 3 / 60) * 30; // 5:03 时针的角度
-  const clockLines = ["指针：不，我要回 5:03 🙃", "检测到熬夜惯性，拨不动 🙈", "好吧，flag 完成度：不予置评 😌"];
+  const HOME = 3 * 30; // 3:00 时针的角度
+  const clockLines = ["指针：不，我还想再熬一会儿 🙃", "检测到熬夜惯性，拨不动 🙈", "好吧，flag 完成度：不予置评 😌"];
   let hourAngle = HOME;
   let dragAngle = null;
   let clockTries = 0;
@@ -565,7 +565,7 @@
     clock.classList.remove("is-dragging");
     if (clockMsg) clockMsg.textContent = clockLines[Math.min(clockTries, clockLines.length - 1)];
     clockTries += 1;
-    // 弹回 5:03：时针回半圈以内，分针跟着嗖嗖转好几圈
+    // 弹回三点：时针回半圈以内，分针跟着嗖嗖转好几圈
     const from = hourAngle;
     const to = HOME + Math.round((from - HOME) / 360) * 360;
     const id = (springId += 1);
@@ -935,7 +935,7 @@
     roundRect(ctx, 290, 340, 500, 84, 42);
     ctx.fill();
     text(ctx, "朋友圈年度报告", W / 2, 398, 48, "#fff", 900, "center");
-    text(ctx, "凌晨营业 · 布蕾成瘾 · 非酋转欧 · 翔霖站岗", W / 2, 490, 36, "#ff5fa2", 800, "center");
+    text(ctx, "熬夜选手 · 布蕾成瘾 · 非酋转欧 · 翔霖站岗", W / 2, 490, 36, "#ff5fa2", 800, "center");
 
     const cells = [
       ["年度数字", "2778", "好运 ×2778 发放中"],
