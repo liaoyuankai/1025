@@ -37,11 +37,11 @@
     if (event.key === "ArrowLeft" && current > 1) show(current - 1);
   });
 
-  /* ---------- 音乐：Someone to Love，关灯许愿时换成生日歌，吹灭接回副歌开灯，切蛋糕后一直循环生日歌 ---------- */
+  /* ---------- 音乐：报告正文放 Someone to Love，关灯之后一直循环生日歌，不再切回去 ---------- */
   const bgm = new Audio("assets/bgm.m4a?v=3");
   bgm.loop = true;
   const song = new Audio("assets/happy-birthday.m4a?v=3");
-  const CHORUS_AT = 96; // 1:36 副歌第一拍，前面约 1 秒几乎没声
+  song.loop = true;
   // iPhone 不让网页调音量（volume 永远是 1），所以两首歌已在文件里调成一样响，那边切歌直接停/放
   const canFade = (() => { const probe = new Audio(); probe.volume = 0.5; return probe.volume === 0.5; })();
   let track = bgm;
@@ -105,12 +105,11 @@
     }
   });
   bgm.addEventListener("error", () => { if (soundButton && track === bgm) soundButton.hidden = true; });
-  song.addEventListener("ended", () => { wantSound = false; setSound(false); });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden && soundOn) { track.pause(); setSound(false); }
   });
 
-  // 微信有时会拦下不是点击直接触发的播放（比如吹灭蜡烛后自动接副歌），她下一次碰屏幕时补上
+  // 微信有时会拦下不是点击直接触发的播放，她下一次碰屏幕时补上
   ["touchend", "click"].forEach((type) => document.addEventListener(type, (event) => {
     if (wantSound && !muted && track.paused && !event.target.closest("#sound-toggle")) play(track);
   }, true));
@@ -666,7 +665,6 @@
   }
 
   const stopLyrics = () => window.clearInterval(lyricTimer);
-  song.addEventListener("ended", stopLyrics);
 
   // 生日歌必须在这次点击里开始放，iPhone 才不会拦
   document.querySelector("#lights-off")?.addEventListener("click", () => {
@@ -775,16 +773,8 @@
     stopLyrics();
     stage?.classList.remove("is-blowing");
     stage?.classList.add("is-out");
-    // 从副歌前那段安静处接回 Someone to Love，等副歌第一拍响起的那一刻开灯
-    const lead = reduceMotion ? 0 : 0.9;
-    switchTo(bgm, CHORUS_AT - lead);
-    const startedAt = performance.now();
-    const waitForChorus = (now) => {
-      const playing = !bgm.paused;
-      if ((playing && bgm.currentTime >= CHORUS_AT - 0.05) || now - startedAt >= (playing ? 2000 : lead * 1000)) lightsOn();
-      else nextTick(waitForChorus);
-    };
-    nextTick(waitForChorus);
+    // 生日歌接着唱，等青烟飘一会儿再开灯
+    window.setTimeout(lightsOn, reduceMotion ? 0 : 900);
   }
 
   function lightsOn() {
@@ -798,9 +788,6 @@
   function cutCake() {
     if (!cake || !cakeWrap || stage?.dataset.step !== "lit" || cakeWrap.classList.contains("is-cutting")) return;
     cakeWrap.classList.add("is-cutting");
-    // 切下去的这一刻换回生日歌，之后结尾和片尾都循环它；趁手还在屏幕上就切，被拦的话松手那下会补放
-    song.loop = true;
-    switchTo(song);
     window.setTimeout(() => {
       const left = cake.cloneNode(true);
       const right = cake.cloneNode(true);
