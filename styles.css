@@ -37,32 +37,10 @@ q { quotes: "「" "」"; }
   background-size: 26px 26px; opacity: .55;
 }
 
-/* 背景小八：四套方案，app.js 按 ?bg=1~4 挑一套，位置和谁出场每次打开都随机 */
-.bgdeco { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.bgdeco img, .bgdeco i, .bgdeco span { position: absolute; display: block; }
-.bgdeco svg { display: block; width: 100%; height: 100%; }
-/* 1 贴纸手帐：方格纸 + 剪下来的贴纸贴在屏幕边上 + 纸胶带 + 手绘小星星 */
-.bg-sticker .sparkles { opacity: 1; background-image: linear-gradient(rgba(150,128,220,.11) 1px, transparent 1px), linear-gradient(90deg, rgba(150,128,220,.11) 1px, transparent 1px); background-size: 22px 22px; }
-.bgdeco .stk { transform: rotate(var(--r)); animation: stk-in .6s var(--d) cubic-bezier(.2,1.4,.4,1) both; }
-@keyframes stk-in { from { opacity: 0; transform: rotate(var(--r)) scale(.6); } }
-.bgdeco .tape { width: 78px; height: 20px; transform: rotate(var(--r)); background: repeating-linear-gradient(90deg, rgba(255,143,192,.5) 0 8px, rgba(255,255,255,.55) 8px 16px); box-shadow: 0 1px 2px rgba(120,80,170,.12); }
-.bgdeco .tape--blue { background: repeating-linear-gradient(45deg, rgba(150,190,240,.5) 0 6px, rgba(255,255,255,.6) 6px 12px); }
-.bgdeco .doodle { width: var(--s); height: var(--s); color: var(--c); transform: rotate(var(--r)); opacity: .7; }
-/* 2 云朵天空：云慢慢飘，小八坐在最下面那朵云上 */
-.bg-cloud .sparkles { opacity: .9; }
-.bgdeco .cloud { width: var(--w); height: calc(var(--w) * .5); opacity: .92; animation: cloud-drift var(--t) ease-in-out infinite alternate; }
-@keyframes cloud-drift { to { transform: translateX(var(--dx)); } }
-.bgdeco .sitter { animation: bob 3.2s ease-in-out infinite; }
-.bgdeco .twinkle { color: #fff; font-size: var(--s); text-shadow: 0 0 6px rgba(255,190,225,.9); animation: twinkle 2.6s var(--d) ease-in-out infinite; }
-@keyframes twinkle { 50% { opacity: .2; transform: scale(.7); } }
-/* 3 飘落派对：各种小八的头、星星、爱心慢慢往下掉 */
-.bgdeco .drop { top: -60px; opacity: var(--o); animation: drop var(--t) var(--d) linear infinite; }
-@keyframes drop { 0% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(var(--dx), 55vh) rotate(calc(var(--rot) / 2)); } 100% { transform: translate(0, calc(100vh + 120px)) rotate(var(--rot)); } }
-.bgdeco span.drop { font-size: var(--s); line-height: 1; }
-/* 4 极简一只：只留圆点，一只大小八从右下角探头 */
-.bgdeco .peek-big { right: -26px; bottom: -48px; width: 124px; transform: rotate(-10deg); transform-origin: bottom center; animation: peek-breathe 4s ease-in-out infinite; }
+/* 背景：只留一只大小八从右下角探头 */
+.bg-peek { position: fixed; z-index: 0; right: -26px; bottom: -48px; width: 124px; pointer-events: none; transform: rotate(-10deg); transform-origin: bottom center; animation: peek-breathe 4s ease-in-out infinite; }
 @keyframes peek-breathe { 50% { transform: rotate(-7deg) translateY(-6px); } }
-@media (prefers-reduced-motion: reduce) { .bgdeco * { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .bg-peek { animation: none; } }
 
 /* 顶部进度 */
 .progress { position: fixed; z-index: 20; top: 0; left: 0; right: 0; height: 4px; background: rgba(255,255,255,.5); }
