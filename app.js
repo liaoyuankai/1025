@@ -10,6 +10,67 @@
   // 用定时器而不是 requestAnimationFrame：某些内置浏览器在后台/低电量时会暂停 rAF
   const nextTick = (fn) => window.setTimeout(() => fn(performance.now()), 16);
 
+  /* ---------- 背景小八：四套方案（?bg=1 贴纸手帐 / 2 云朵天空 / 3 飘落派对 / 4 极简一只），每次打开随机摆 ---------- */
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const shuffle = (list) => list.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map((x) => x[1]);
+  const AVATARS = ["stand", "hat", "baby", "baby2", "cam", "crown", "bow", "modern"];
+  const AVATAR_BG = ["linear-gradient(135deg, #ffe7a3, #ffc2dc)", "linear-gradient(135deg, #ffd6ea, #e3d8ff)", "linear-gradient(135deg, #d9ecff, #e9e0ff)", "linear-gradient(135deg, #fff1c9, #d9f3e6)"];
+  // 她的头像也换着来：每条朋友圈一只不同的小八，背景色轮着换
+  shuffle(AVATARS).slice(0, 6).forEach((name, i) => {
+    const box = document.querySelectorAll(".post__avatar")[i];
+    if (!box) return;
+    box.querySelector("img").src = `assets/av-${name}.png`;
+    box.style.background = AVATAR_BG[i % AVATAR_BG.length];
+  });
+  const bgLayer = document.querySelector("#bgdeco");
+  const bgPick = (location.search.match(/[?&]bg=(\d)/) || [])[1] || "1";
+  const add = (html) => bgLayer.insertAdjacentHTML("beforeend", html);
+  const DOODLES = {
+    star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2.8l2.7 5.6 6.1.8-4.5 4.2 1.1 6-5.4-2.9-5.4 2.9 1.1-6-4.5-4.2 6.1-.8z"/></svg>',
+    heart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.5s-8-4.8-8-10.6A4.4 4.4 0 0 1 12 7.4a4.4 4.4 0 0 1 8 2.5c0 5.8-8 10.6-8 10.6z"/></svg>',
+    spark: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1c.6 5.4 2.6 8.4 11 11-8.4 2.6-10.4 5.6-11 11-.6-5.4-2.6-8.4-11-11 8.4-2.6 10.4-5.6 11-11z"/></svg>',
+  };
+  const CLOUD = '<svg viewBox="0 0 200 100"><path fill="#fff" d="M42 92a30 30 0 0 1-4-59 40 40 0 0 1 72-12 32 32 0 0 1 50 18 26 26 0 0 1 6 53z"/></svg>';
+  if (bgLayer) {
+    document.body.classList.add(["", "bg-sticker", "bg-cloud", "bg-party", "bg-mini"][+bgPick] || "bg-sticker");
+    if (bgPick === "2") {
+      [[6, 150, 40, 34], [22, 110, -30, 46], [62, 130, 36, 40], [80, 190, -24, 52]].forEach(([top, w, dx, t], i) => {
+        const side = i % 2 ? `right:${rand(-60, -20)}px` : `left:${rand(-60, -20)}px`;
+        add(`<i class="cloud" style="top:${top}%;${side};--w:${w}px;--dx:${dx}px;--t:${t}s">${CLOUD}</i>`);
+      });
+      add(`<i class="cloud" style="bottom:-34px;right:-60px;--w:230px;--dx:-18px;--t:40s">${CLOUD}</i>`);
+      add('<img class="sitter" src="assets/full-baby2.png" alt="" style="right:22px;bottom:26px;width:68px">');
+      add(`<i class="cloud" style="bottom:-56px;right:-34px;--w:170px;--dx:-10px;--t:28s;z-index:1">${CLOUD}</i>`);
+      for (let i = 0; i < 8; i++) add(`<span class="twinkle" style="left:${rand(4, 94)}%;top:${rand(3, 70)}%;--s:${rand(10, 18)}px;--d:${rand(0, 2.6)}s">✦</span>`);
+    } else if (bgPick === "3") {
+      const items = [...AVATARS.map((n) => `img:${n}`), "⭐", "💗", "🎀", "✨", "💜", "⭐"];
+      for (let i = 0; i < 13; i++) {
+        const it = items[i % items.length], size = rand(28, 46), t = rand(18, 32);
+        const style = `left:${(i / 13) * 100 + rand(-3, 3)}%;--o:${rand(.6, .9).toFixed(2)};--t:${t}s;--d:${-rand(0, t)}s;--dx:${rand(-40, 40)}px;--rot:${rand(-200, 200)}deg`;
+        add(it.startsWith("img:")
+          ? `<img class="drop" src="assets/av-${it.slice(4)}.png" alt="" style="${style};width:${size}px">`
+          : `<span class="drop" style="${style};--s:${size * .6}px">${it}</span>`);
+      }
+    } else if (bgPick === "4") {
+      add('<img class="peek-big" src="assets/full-stand.png" alt="">');
+    } else {
+      // 贴纸贴在屏幕四周、一半露在外面，中间留给卡片
+      const slots = [
+        "top:-24px;left:-24px;width:66px", "top:13%;right:-34px;width:72px", "top:47%;left:-44px;width:78px",
+        "bottom:-26px;left:-12px;width:84px", "bottom:-20px;right:-14px;width:78px",
+      ];
+      const stickers = shuffle(["stand", "cam", "modern", "baby", "baby2", "chiikawa", "usagi"]).slice(0, 5);
+      slots.forEach((slot, i) => add(`<img class="stk" src="assets/stk-${stickers[i]}.png" alt="" style="${slot};--r:${rand(-16, 16).toFixed(1)}deg;--d:${(i * .08).toFixed(2)}s">`));
+      add(`<i class="tape" style="top:${rand(14, 24)}%;right:${rand(4, 14)}%;--r:${rand(28, 42)}deg"></i>`);
+      add(`<i class="tape tape--blue" style="bottom:${rand(22, 32)}%;left:${rand(-4, 6)}%;--r:${rand(-40, -26)}deg"></i>`);
+      const colors = ["#ff8fc0", "#b89cff", "#8fbfff", "#ffc94d"];
+      for (let i = 0; i < 7; i++) {
+        const kind = ["star", "heart", "spark"][i % 3];
+        add(`<i class="doodle" style="left:${rand(2, 94)}%;top:${rand(2, 94)}%;--s:${rand(12, 20)}px;--c:${colors[i % 4]};--r:${rand(-25, 25)}deg">${DOODLES[kind]}</i>`);
+      }
+    }
+  }
+
   /* ---------- 翻页 ---------- */
   const enterHooks = {};
 
